@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>What The Hash</title>
+  </head>
+  <body>
+
+    <h1>What The Hash?</h1>
+    <form class="" action="{% url 'home' %}" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" name="submit" value="Hash">
+    </form>
+
+    <h2 id="quickhash"></h2>
+
+
+    <script
+    src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous"></script>
+    <script type="text/javascript">
+
+
+      $("#id_text").keyup(function() {
+        // since this is being used, can't use arrow funtions
+        var text = $(this).val();
+
+        $.ajax({
+          url:"/quickhash",
+          data: {
+            "text":text
+          },
+          dataType: "json"
+        }).then(
+          (data) => {
+            $("#quickhash").text(data["hash"])
+          },
+          () => {
+            console.log("bad request");
+          }
+        );
+    });
+    </script>
+  </body>
+
+</html>
