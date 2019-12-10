@@ -3,6 +3,8 @@
 # Create your views here.
 
 # sendemail/views.py
+
+import os
 from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
@@ -18,7 +20,7 @@ def emailView(request):
             from_email = form.cleaned_data['from_email']
             message = form.cleaned_data['message']
             try:
-                send_mail(subject, message, from_email, ['admin@example.com'])
+                send_mail(subject, message, from_email, [os.getenv('RECIPIENT_EMAIL')])
             except BadHeaderError:
                 return HttpResponse('Invalid header found.')
             return redirect('success')
