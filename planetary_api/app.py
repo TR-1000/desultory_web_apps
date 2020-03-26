@@ -63,6 +63,11 @@ def db_seed():
 
 
 
+
+# ======================== #
+# =========ROUTES========= #
+# ======================== #
+
 @app.route('/')
 def hello_world():
     return('Hello, World!')
@@ -106,8 +111,10 @@ def planets():
     return jsonify(result)
 
 
-
+# ======================== #
 # =====DATABASE MODELS==== #
+# ======================== #
+
 class User(db.Model):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
@@ -151,7 +158,6 @@ planets_schema = PlanetSchema(many=True)
 
 if __name__ == '__main__':
     app.run()
-
 
 # app.run(port=5000)            If we want to run server on port 5000
 # $env:FLASK_APP = "app.py"     Export the FLASK_APP environment variable
