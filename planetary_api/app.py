@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from sqlalchemy import Column, Integer, String, Float
 from flask_marshmallow import Marshmallow
 import os
@@ -7,12 +8,20 @@ import os
 
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'planets.db')
-
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'planets.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:@localhost:5432/planetary_api'
 db = SQLAlchemy(app)
+migrate = Migrate(app,db)
 ma = Marshmallow(app)
 
-@app.cli.command('db_create')
+
+# CLI commands to initiate the postgres db, enabling migrations and execute the migration and create the table.
+# flask db init
+# flask db migrate
+# flask db upgrade
+
+
+@app.cli.command('db_create') # I don't think we need this using postgres
 def db_create():
     db.create_all()
     print('Database created!')
@@ -158,8 +167,9 @@ planets_schema = PlanetSchema(many=True)
 
 if __name__ == '__main__':
     app.run()
-
 # app.run(port=5000)            If we want to run server on port 5000
+
+#COMMANDS
 # $env:FLASK_APP = "app.py"     Export the FLASK_APP environment variable
 # $env:FLASK_ENV="development"  Turn on # DEBUG mode
 # python -m flask run           Run the application
