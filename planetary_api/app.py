@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Integer, String, Float
+from flask_marshmallow import Marshmallow
 import os
 
 
@@ -9,6 +10,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'planets.db')
 
 db = SQLAlchemy(app)
+ma = Marshmallow(app)
 
 @app.cli.command('db_create')
 def db_create():
@@ -96,6 +98,13 @@ def url_variables(name: str, age: int):
         return jsonify(message=f"Welcome to the API, {name}!")
 
 
+@app.route('/planets', methods=['GET'])
+def planets():
+    planets_list = Planet.query.all()
+    result = planets_schema.dump(planets_list)
+    # return jsonify(result.data) didn't work. had to remove .data
+    return jsonify(result)
+
 
 
 # =====DATABASE MODELS==== #
@@ -118,8 +127,20 @@ class Planet(db.Model):
     distance = Column(Float)
 
 
+class UserSchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'first_name', 'last_name', 'email', 'password')
+
+class PlanetSchema(ma.Schema):
+    class Meta:
+        fields = ('planet_id', 'planet_name', 'planet_type', 'home_star', 'mass', 'radius', 'distance')
 
 
+user_schema = UserSchema()
+users_schema = UserSchema(many=True)
+
+planet_schema = PlanetSchema()
+planets_schema = PlanetSchema(many=True)
 
 
 
@@ -134,5 +155,5 @@ if __name__ == '__main__':
 
 # app.run(port=5000)            If we want to run server on port 5000
 # $env:FLASK_APP = "app.py"     Export the FLASK_APP environment variable
-# $env:FLASK_ENV=development    Turn on # DEBUG mode
+# $env:FLASK_ENV="development"  Turn on # DEBUG mode
 # python -m flask run           Run the application
