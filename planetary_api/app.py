@@ -3,11 +3,11 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from sqlalchemy import Column, Integer, String, Float
 from flask_marshmallow import Marshmallow
-import os
+
 
 
 app = Flask(__name__)
-basedir = os.path.abspath(os.path.dirname(__file__))
+# basedir = os.path.abspath(os.path.dirname(__file__))
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'planets.db')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:@localhost:5432/planetary_api'
 db = SQLAlchemy(app)
@@ -118,6 +118,23 @@ def planets():
     result = planets_schema.dump(planets_list)
     # return jsonify(result.data) didn't work. had to remove .data
     return jsonify(result)
+
+
+
+@app.route('/register', methods=['POST'])
+def register():
+    email = request.form['email']
+    test = User.query.filter_by(email=email).first()
+    if test:
+        return jsonify(message='That email already exists.'), 409
+    else:
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        password = request.form['password']
+        user = User(first_name=first_name, last_name=last_name, email=email, password=password)
+        db.session.commit()
+        db.session.commit()
+        return jsonify(message='User created successfully.'),201    
 
 
 # ======================== #
