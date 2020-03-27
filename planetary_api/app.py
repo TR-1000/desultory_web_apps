@@ -125,6 +125,14 @@ def planets():
     return jsonify(result)
 
 
+@app.route('/planet_search', methods=['GET'])
+def planet_search():
+    search = request.form['search']
+    found_planets = Planet.query.filter(Planet.planet_name.ilike(f'%{search}%'))
+    result = planets_schema.dump(found_planets)
+    return jsonify(result)
+
+
 @app.route('/planet_details/<int:planet_id>', methods=['GET'])
 def planet_details(planet_id: int):
     planet = Planet.query.filter_by(planet_id=planet_id).first()
@@ -227,6 +235,9 @@ def login():
         return jsonify(message='Login successful!', access_token=access_token)
     else:
         return jsonify(message='Invalid email or password.'), 401
+
+
+
 
 
 # ======================== #
