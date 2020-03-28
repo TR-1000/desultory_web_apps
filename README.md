@@ -1,1 +1,1 @@
-Random Django and Flask apps, just for fun or learning.
+Random apps, just for fun or learning.
