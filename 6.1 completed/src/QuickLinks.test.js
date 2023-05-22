@@ -17,11 +17,9 @@ describe('quick links test', () => {
         //render component
         render(<UserList specialty="Not general medical" />);
         //find the covid
-        const link = screen.getByText("Covid-19 Guidelines");
+        const link = screen.queryByText("Covid-19 Guidelines");
         // assertion
-        console.log("Component ", )
-        console.log("Link ", link);
-        expect(link).not.toBeInTheDocument();
+        expect(link).toBeNull();
     });
     
     test ('it shows provider resources link', ()=> {
