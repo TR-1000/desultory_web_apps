@@ -1,0 +1,24 @@
+git checkout -b pratice
+git checkout -b spring
+git branch -D pratice
+ls
+git log
+git commit -m "removing old apps"
+git add.
+git add .
+git commit -m "removing old apps"
+java -version
+git commit -m "initial spring boot commit"
+ls
+cd sprung
+ls
+./mvnw spring-boot:run
+./mvnw clean spring-boot:run
+history
+git commit -m "updated gitignore"
+
+Select Code Block and press shift + tab
+Select Code Block Ctrl + [ (for left shift one indent), Ctrl + ] (for right shift one indent)
+Change to column selection, select all rows (cursor a position of code to shift) + backspace
+
+https://code.visualstudio.com/docs/editor/codebasics
