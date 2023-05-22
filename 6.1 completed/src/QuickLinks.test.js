@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react';
-import  UserList from './UserList';
+import  QuickLinks from './QuickLinks';
 
 describe('quick links test', () => {
     test ('shows covid 19 link when specialty is General Medical', ()=> {
         //render component
-        render(<UserList specialty="General Medical" />);
+        render(<QuickLinks specialty="General Medical" />);
     
         //find the covid link by text
         const link = screen.getByText("Covid-19 Guidelines");
@@ -15,7 +15,7 @@ describe('quick links test', () => {
     
     test ('does not shows covid 19 link when specialty is not General Medical', ()=> {
         //render component
-        render(<UserList specialty="Not general medical" />);
+        render(<QuickLinks specialty="Not general medical" />);
         //find the covid
         const link = screen.queryByText("Covid-19 Guidelines");
         // assertion
@@ -24,7 +24,7 @@ describe('quick links test', () => {
     
     test ('it shows provider resources link', ()=> {
         //render component
-        render(<UserList />);
+        render(<QuickLinks />);
         //provider resources link
         const link = screen.getByText("Provider Resources");
         // assertion
