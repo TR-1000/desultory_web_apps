@@ -1,0 +1,12 @@
+Scenario: Verify correct Topdanmark links on the header
+
+Given there is an ondemand general medical requested video consult in DNK for that member
+Given there is a topdanmark_rte group with general medical, expert medical opinion enabled
+And there is a registered member from DNK for this group
+And inbox is disabled for this member
+And I am using the member_topdanmark site
+And I am on the old Topdanmark login page
+And the member simply logs in only
+And I am on topdanmark home page
+When I am on the home page
+Then I should see topdanmark styled header
